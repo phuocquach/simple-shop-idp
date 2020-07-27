@@ -1,0 +1,1 @@
+# mine-shop-idp
