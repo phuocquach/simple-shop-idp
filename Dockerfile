@@ -6,6 +6,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 
+RUN ls
 RUN dotnet restore "src/Mine.Commerce.Identity"
 COPY ./src/* .
 RUN dotnet build "Mine.Commerce.Identity" -c Release -o /app/build
