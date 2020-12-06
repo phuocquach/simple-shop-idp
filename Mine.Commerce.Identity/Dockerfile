@@ -4,11 +4,10 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:5.0 AS build
-WORKDIR /src
+WORKDIR /Mine.Commerce.Identity
 COPY ["Mine.Commerce.Identity.csproj", "./"]
 RUN dotnet restore "./Mine.Commerce.Identity.csproj"
 COPY . .
-WORKDIR "/src/."
 RUN dotnet build "Mine.Commerce.Identity.csproj" -c Release -o /app/build
 
 FROM build AS publish
