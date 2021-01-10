@@ -46,10 +46,10 @@ namespace Mine.Commerce.Identity.Areas.Identity.StartupExtension
                 context.Roles.Remove(identityResource);
             }
 
-            // foreach (var apiResource in context.UserClaims)
-            // {
-            //     context.UserClaims.Remove(apiResource);
-            // }
+             foreach (var userClaim in context.UserClaims)
+             {
+                context.UserClaims.Remove(userClaim);
+            }
             // context.UserClaims.Add(new IdentityUserClaim<string>
             // {
             //     ClaimType = "Role",
@@ -74,7 +74,7 @@ namespace Mine.Commerce.Identity.Areas.Identity.StartupExtension
                 var persistantContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
-                //CleanClients(context);
+                CleanClients(context);
                 if (!context.Clients.Any())
                 {
                     foreach (var client in IdentityServerConfig.Clients(clientUrls))

@@ -2,7 +2,7 @@
 
 # add db context update
 ## dotnet ef database update --context ConfigurationDbContext
-## dotnet ef database update --context ConfigurationDbContext
+## dotnet ef database update --context PersistantDbContext
 ## dotnet ef database update --context ApplicationDbContext
 
 # Connection string for docker 
