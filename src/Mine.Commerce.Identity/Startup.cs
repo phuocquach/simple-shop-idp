@@ -81,7 +81,6 @@ namespace Mine.Commerce.Identity
                         Configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(migrationsAssembly));
                 // this enables automatic token cleanup. this is optional.
-                options.EnableTokenCleanup = true;
                 options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
             });
             services.AddControllersWithViews();
