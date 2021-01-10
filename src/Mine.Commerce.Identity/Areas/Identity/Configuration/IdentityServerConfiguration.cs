@@ -14,16 +14,20 @@ namespace Mine.Commerce.Identity
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
                 new IdentityResources.Email(),
-                new IdentityResource("role", new List<string>{"role"})            };
+                new IdentityResource("role", new List<string>{"role"})
+            };
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("MineCommerceAPI", "MineCommerce API", new List<string>{"Role"} )
+                new ApiResource("MineCommerceAPI", "MineCommerce API" )
                     {
-                        Scopes = new List<Scope>
+                        UserClaims = new List<string>{
+                            "email", "name"
+                        },
+                        Scopes = new List<string>
                         {
-                            new Scope(InternalScope)
+                            InternalScope
                         },
                         ApiSecrets = new List<Secret>{
                             new Secret("secret".Sha256())
@@ -96,14 +100,11 @@ namespace Mine.Commerce.Identity
                     ClientId = "swagger",
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
-
                     RequireConsent = false,
                     RequirePkce = true,
-
                     RedirectUris =           { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
                     AllowedCorsOrigins =     { $"{clientUrls["Swagger"]}" },
-
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -122,7 +123,6 @@ namespace Mine.Commerce.Identity
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = true,
-
                     RedirectUris = new List<string>
                     {
                         $"{clientUrls["Idp"]}/authentication/login-callback",

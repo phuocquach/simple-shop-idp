@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -23,9 +24,14 @@ namespace Mine.Commerce.Identity.Areas.Identity.StartupExtension
             {
                 context.IdentityResources.Remove(identityResource);
             }
-             foreach (var apiResource in context.ApiResources)
+            foreach (var apiResource in context.ApiResources)
             {
                 context.ApiResources.Remove(apiResource);
+            }
+
+            foreach (var item in context.ApiScopes)
+            {
+                context.ApiScopes.Remove(item);
             }
             context.SaveChanges();
         }
@@ -46,10 +52,11 @@ namespace Mine.Commerce.Identity.Areas.Identity.StartupExtension
                 context.Roles.Remove(identityResource);
             }
 
-            // foreach (var apiResource in context.UserClaims)
-            // {
-            //     context.UserClaims.Remove(apiResource);
-            // }
+            foreach (var userClaim in context.UserClaims)
+            {
+                context.UserClaims.Remove(userClaim);
+            }
+
             // context.UserClaims.Add(new IdentityUserClaim<string>
             // {
             //     ClaimType = "Role",
@@ -99,6 +106,17 @@ namespace Mine.Commerce.Identity.Areas.Identity.StartupExtension
                     {
                         context.ApiResources.Add(resource.ToEntity());
                     }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiScopes.Any())
+                {
+                    context.ApiScopes.Add(new ApiScope
+                    {
+                        Name = "api.minecommerce",
+                        DisplayName = "api.minecommerce",
+                        Enabled = true
+                    });
                     context.SaveChanges();
                 }
 
