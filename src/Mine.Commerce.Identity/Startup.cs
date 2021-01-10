@@ -39,11 +39,7 @@ namespace Mine.Commerce.Identity
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -51,6 +47,8 @@ namespace Mine.Commerce.Identity
             .AddCookie(options => {
                 options.LoginPath = "/Account/Unauthorized/";
                 options.AccessDeniedPath = "/Account/Forbidden/";
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+                
             })
             .AddJwtBearer(options => {
                 options.Authority = Configuration.GetSection("ClientUrl:Idp")?.Value;
@@ -64,6 +62,7 @@ namespace Mine.Commerce.Identity
                         options.Events.RaiseInformationEvents = true;
                         options.Events.RaiseFailureEvents = true;
                         options.Events.RaiseSuccessEvents = true;
+                        
                     }
             )
             .AddAspNetIdentity<IdentityUser>()
@@ -85,6 +84,8 @@ namespace Mine.Commerce.Identity
                 options.EnableTokenCleanup = true;
                 options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
             });
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -108,7 +109,7 @@ namespace Mine.Commerce.Identity
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
             app.InitializeDatabase(Configuration);
             app.UseStaticFiles();
@@ -117,7 +118,7 @@ namespace Mine.Commerce.Identity
             app.UseCors("AllowAllPolicy");
             
             app.UseIdentityServer();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

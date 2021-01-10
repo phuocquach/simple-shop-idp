@@ -21,9 +21,9 @@ namespace Mine.Commerce.Identity
             {
                 new ApiResource("MineCommerceAPI", "MineCommerce API", new List<string>{"Role"} )
                     {
-                        Scopes = new List<Scope>
+                        Scopes = new List<string>
                         {
-                            new Scope(InternalScope)
+                            InternalScope
                         },
                         ApiSecrets = new List<Secret>{
                             new Secret("secret".Sha256())
